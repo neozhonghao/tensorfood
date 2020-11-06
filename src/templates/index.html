@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Tensorfood</title>
+</head>
+
+<body style="background: #EFDECD">
+    <h1>Tensorfood</h1>
+    <h2>hello world! I am a real human that can predict singaporish food!</h2>
+    <img src="{{url_for('static', filename='image.png')}}" height="70" width="70" />
+    
+    <form action="{{ url_for('index')}}" method="post" enctype = "multipart/form-data">    
+        <input type="file" id="image" name="image">
+        <button type="submit">Submit</button>    
+    </form>
+    <br>
+    <br>
+    {{ prediction_text }}
+</body>
+</html>
