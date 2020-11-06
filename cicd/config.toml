@@ -1,0 +1,20 @@
+concurrent = 1
+check_interval = 0
+
+[session_server]
+  session_timeout = 1800
+
+[[runners]]
+  name = "##########"
+  url = "##########"
+  token = "##########"
+  executor = "docker"
+  [runners.cache]
+    Insecure = false
+  [runners.docker]
+    tls_verify = false
+    image = "docker:stable"
+    privileged = true
+    disable_cache = false
+    cache_dir = "/cache"    
+    volumes = ["/var/run/docker.sock:/var/run/docker.sock","/cache"]

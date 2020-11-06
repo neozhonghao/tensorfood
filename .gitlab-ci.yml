@@ -1,0 +1,32 @@
+stages:
+  - publish
+  - deploy
+
+variables:
+  AIAP_REGISTRY: registry.aisingapore.net
+  AIAP_REGISTRY_IMAGE: registry.aisingapore.net/test/seldon-nzh
+  TAG_LATEST: $AIAP_REGISTRY_IMAGE:latest
+  TAG_COMMIT: $AIAP_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+
+publish:
+  image: docker:latest
+  stage: publish
+  services:
+    - docker:dind
+  script:
+    - docker login -u zhong_hao_neo -p $NZH_DOCKER_KEY $AIAP_REGISTRY      
+    - docker build -t $TAG_COMMIT -t $TAG_LATEST ./seldonnzh_app
+    - docker push $TAG_COMMIT
+    - docker push $TAG_LATEST
+
+deploy:
+  image: dtzar/helm-kubectl
+  stage: deploy
+  environment:
+    name: production
+    url: helm-seldontensorfood.a.brani.aisingapore.net/seldon/scout-dev2/helm-seldontensorfood/api/v1.0/doc/  
+  script:
+    - mkdir /root/.kube
+    - cp $SCOUT_KUBE_CONFIG /root/.kube/config
+    - kubectl config set-context --current --namespace=scout-dev2
+    - helm --kubeconfig $SCOUT_KUBE_CONFIG -n scout-dev2 upgrade -i helm-seldontensorfood ./helm-seldon
