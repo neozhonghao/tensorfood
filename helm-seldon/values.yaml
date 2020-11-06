@@ -1,0 +1,15 @@
+replicaCount: 3
+
+metadata:
+  name: helm-seldontensorfood
+
+image:
+  image: registry.aisingapore.net/test/seldon-nzh:latest
+
+ports:
+  name: http
+  containerPort: 8080
+  servicePort: 80
+
+ingress:
+  host: a.brani.aisingapore.net

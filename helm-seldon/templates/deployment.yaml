@@ -1,0 +1,22 @@
+apiVersion: machinelearning.seldon.io/v1alpha2
+kind: SeldonDeployment
+metadata:
+  name: {{ .Values.metadata.name }}
+spec:
+  name: {{ .Values.metadata.name }}
+  predictors:
+  - componentSpecs:
+    - spec:
+        containers:
+        - name: {{ .Values.metadata.name }}
+          image: {{ .Values.image.image }}
+    name: {{ .Values.metadata.name }}
+    labels:
+      app: {{ .Values.metadata.name }}
+    replicas: 3
+    graph:
+      name: {{ .Values.metadata.name }}
+      type: MODEL
+      endpoint:
+        type: REST
+      children: []
