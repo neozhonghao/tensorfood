@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.metadata.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.metadata.name }}
+  template:
+    metadata:
+      name: {{ .Values.metadata.name }}
+      labels:
+        app: {{ .Values.metadata.name }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8080"
+    spec:
+      containers:
+      - name: {{ .Values.metadata.name }}
+        image: {{ .Values.image.image }}
+        args: ["bentoml", "serve-gunicorn", "-w", "1", "/bento"]
+        ports:
+        - name: {{ .Values.ports.name }}
+          containerPort: {{ .Values.ports.containerPort }}
