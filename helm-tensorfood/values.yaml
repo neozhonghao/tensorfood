@@ -1,0 +1,15 @@
+replicaCount: 3
+
+metadata:
+  name: nzhtensorfood
+
+image:
+  image: registry.aisingapore.net/test/nzh-tensorfood:1.0
+
+ports:
+  name: http
+  containerPort: 8000
+  servicePort: 80
+
+ingress:
+  host: k8s.brani.aisingapore.net
